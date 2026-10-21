@@ -1,0 +1,31 @@
+void backtrack(char** res, int* count, char* cur, int pos, int open, int close, int n) {
+    if (pos == 2 * n) {
+        cur[pos] = '\0';
+        res[*count] = (char*)malloc(2 * n + 1);
+        strcpy(res[*count], cur);
+        (*count)++;
+        return;
+    }
+
+    if (open < n) {
+        cur[pos] = '(';
+        backtrack(res, count, cur, pos + 1, open + 1, close, n);
+    }
+
+    if (close < open) {
+        cur[pos] = ')';
+        backtrack(res, count, cur, pos + 1, open, close + 1, n);
+    }
+}
+
+char** generateParenthesis(int n, int* returnSize) {
+    
+    char** res = (char**)malloc(1430 * sizeof(char*));
+    char* cur = (char*)malloc(2 * n + 1);
+
+    *returnSize = 0;
+    backtrack(res, returnSize, cur, 0, 0, 0, n);
+
+    free(cur);
+    return res;
+}
